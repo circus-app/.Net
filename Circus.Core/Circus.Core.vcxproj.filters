@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="api.h" />
+    <ClInclude Include="hash\detail\farmhash-detail.h">
+      <Filter>hash\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="hash\detail\prime-detail.h">
+      <Filter>hash\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="hash\farmhash.h">
+      <Filter>hash</Filter>
+    </ClInclude>
+    <ClInclude Include="hash\prime.h">
+      <Filter>hash</Filter>
+    </ClInclude>
+    <ClInclude Include="environment\monitor.h" />
+    <ClInclude Include="environment\detail\monitor-detail.h" />
+    <ClInclude Include="text\basic_string.h" />
+    <ClInclude Include="text\numerics.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="api.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="hash">
+      <UniqueIdentifier>{035f3c6c-4402-4c88-9388-0e827a64308f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hash\detail">
+      <UniqueIdentifier>{0bf666cc-1343-4c7d-be43-f3c4c6f9b571}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
