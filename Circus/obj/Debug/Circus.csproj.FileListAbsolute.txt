@@ -1,0 +1,6 @@
+C:\Users\Circus\source\repos\Circus\Circus\bin\Debug\Circus.dll
+C:\Users\Circus\source\repos\Circus\Circus\bin\Debug\Circus.pdb
+C:\Users\Circus\source\repos\Circus\Circus\obj\Debug\Circus.csproj.CoreCompileInputs.cache
+C:\Users\Circus\source\repos\Circus\Circus\obj\Debug\Circus.dll
+C:\Users\Circus\source\repos\Circus\Circus\obj\Debug\Circus.pdb
+C:\Users\Circus\source\repos\Circus\Circus\obj\Debug\Circus.csprojAssemblyReference.cache
