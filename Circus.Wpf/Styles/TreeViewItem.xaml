@@ -1,0 +1,73 @@
+﻿<!--
+    Copyright (c) 2019-2020, Circus.
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    
+    You may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Circus.Wpf.Controls" xmlns:theme="clr-namespace:Circus.Wpf.Themes">
+    <Style x:Key="{x:Type local:TreeViewItem}" TargetType="{x:Type local:TreeViewItem}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForeground}" />
+        <Setter Property="Indent" Value="20" />
+        <Setter Property="IsDraggedOver" Value="False" />
+        <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:TreeViewItem}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border x:Name="Border" Background="Transparent" Grid.ColumnSpan="3" Margin="{Binding SelectionMargin, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <local:ItemExpander x:Name="Expander" Focused="{Binding IsFocused, RelativeSource={RelativeSource TemplatedParent}}" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" IsSelected="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <ContentPresenter x:Name="Presenter" ContentSource="Header" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" />
+                        <ItemsPresenter x:Name="Items" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter Property="Visibility" TargetName="Items" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="{x:Static theme:Brushes.TreeViewItemBackgroundSelected}" />
+                            <Setter Property="Foreground" Value="{x:Static theme:Brushes.TreeViewItemForegroundSelected}" />
+                        </Trigger>
+                        <Trigger Property="IsDraggedOver" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="{x:Static theme:Brushes.TreeViewItemBackgroundDragOver}" />
+                            <Setter Property="Foreground" Value="{x:Static theme:Brushes.TreeViewItemForegroundSelected}" />
+                        </Trigger>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter Property="Visibility" TargetName="Expander"  Value="Collapsed" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsKeyboardFocusWithin" Value="False" />
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="Border" Value="{x:Static theme:Brushes.TreeViewItemBackgroundSelectedUnfocused}" />
+                            <Setter Property="Foreground" Value="{x:Static theme:Brushes.TreeViewItemForeground}" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

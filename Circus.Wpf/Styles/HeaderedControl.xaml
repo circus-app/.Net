@@ -1,0 +1,107 @@
+﻿<!--
+    Copyright (c) 2019-2020, Circus.
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    
+    You may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:Circus.Wpf.Controls" xmlns:theme="clr-namespace:Circus.Wpf.Themes">
+    <Style x:Key="{x:Static local:HeaderedControl.ButtonStyleKey}" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForeground}" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Margin" Value="8,0,0,0" />
+        <Setter Property="ToolTip" Value="Close (Shift+Esc)" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="{x:Static theme:Brushes.HeaderedControlButtonBackgroundMouseOver}" />
+                            <Setter Property="Foreground" Value="{x:Static theme:Brushes.HeaderedControlButtonForegroundMouseOver}" />
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="{x:Static theme:Brushes.HeaderedControlButtonBackgroundFocusedMouseOver}" />
+                        </MultiDataTrigger>
+                        <DataTrigger Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                            <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForegroundPressed}" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="{x:Type local:HeaderedControl}" TargetType="{x:Type local:HeaderedControl}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForeground}" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="HeaderSideMargin" Value="12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:HeaderedControl}">
+                    <Border Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border x:Name="Border" Background="{TemplateBinding Background}" Padding="4,3,4,3">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter x:Name="Header" ContentSource="Header" HorizontalAlignment="Stretch" Margin="0,0,8,0" VerticalAlignment="Stretch" Width="{TemplateBinding HeaderWidth}">
+                                        <ContentPresenter.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                            </Style>
+                                        </ContentPresenter.Resources>
+                                    </ContentPresenter>
+                                    <local:HeaderedControlThumb Grid.Column="1" />
+                                    <Button x:Name="Button" Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}" Grid.Column="2" IsEnabled="True" Style="{StaticResource {x:Static local:HeaderedControl.ButtonStyleKey}}">
+                                        <Path Data="F1 M0,0 L2,0 L5,3 L8,0 L10,0 L6,4 L10,8 L8,8 L5,5 L2,8 L0,8 L4,4 L0,0" Fill="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource Self}}" Height="8" Stretch="Uniform" Width="10" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter ContentSource="Content" Grid.Row="1" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Command" Value="{x:Null}">
+                            <Setter Property="IsEnabled" TargetName="Button" Value="False" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="{x:Static theme:Brushes.ControlBackgroundPressed}" />
+                            <Setter Property="TextElement.Foreground" TargetName="Header" Value="{x:Static theme:Brushes.ControlForegroundPressed}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,122 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Circus.Wpf" xmlns:convert="clr-namespace:Circus.Wpf.Converters" xmlns:local="clr-namespace:Circus.Wpf.Controls" xmlns:theme="clr-namespace:Circus.Wpf.Themes" xmlns:visual="clr-namespace:Circus.Wpf.Images">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ListBoxItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style x:Key="{x:Static local:DockView.ListBoxStyleKey}" TargetType="{x:Type local:ListBox}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ContentSelectionMode" Value="First" />
+        <Setter Property="Margin" Value="0,3,0,4" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+    </Style>
+    <Style x:Key="{x:Static local:DockView.TraysListBoxItemStyleKey}" BasedOn="{StaticResource {x:Type local:ListBoxItem}}" TargetType="{x:Type local:ListBoxItem}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="0,1,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ListBoxItem}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0" Padding="2">
+                        <ContentPresenter TextBlock.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="{x:Static local:DockView.WindowsListBoxItemStyleKey}" BasedOn="{StaticResource {x:Type local:ListBoxItem}}" TargetType="{x:Type local:ListBoxItem}">
+        <Setter Property="Margin" Value="0,1,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ListBoxItem}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0" Padding="2">
+                        <ContentPresenter TextBlock.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{x:Static theme:Brushes.ListBoxItemBackgroundSelected}" />
+                            <Setter Property="Foreground" Value="{x:Static theme:Brushes.ListBoxItemForegroundSelected}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="{x:Type local:DockView}" TargetType="{x:Type local:DockView}">
+        <Setter Property="Background" Value="{x:Static theme:Brushes.Window}" />
+        <Setter Property="BorderBrush" Value="{x:Static theme:Brushes.ControlBorder}" />
+        <Setter Property="BorderThickness" Value="0.5" />
+        <Setter Property="Height" Value="375" />
+        <Setter Property="MaxHeight" Value="375" />
+        <Setter Property="MaxWidth" Value="390" />
+        <Setter Property="ResizeMode" Value="NoResize" />
+        <Setter Property="ShowInTaskbar" Value="False" />
+        <Setter Property="Width" Value="390" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="0" CornerRadius="0" GlassFrameThickness="1" NonClientFrameEdges="None" ResizeBorderThickness="6" UseAeroCaptionButtons="False" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DockView}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <local:Label x:Name="_label" FontWeight="Bold" Icon="{Binding Icon}" IconPlacement="0,2,6,0" Margin="12,0,6,0" Text="{Binding Header}" TextTrimming="CharacterEllipsis" />
+                            <local:WindowButton Command="{base:CommandBinding local:DockView, NewWindow}" Content="{base:ResourceBinding {x:Static visual:Image.Alias}, NewWindow, {x:Type local:DockView}}" Grid.Column="1" ToolTip="New Window" />
+                            <Grid Grid.ColumnSpan="2" Grid.Row="1" Margin="15,0,15,15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="64" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.ColumnSpan="3" Margin="0,0,0,21" Text="{Binding Count, StringFormat={}{0} Window(s).}" />
+                                <DockPanel Grid.Row="1">
+                                    <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Text="Windows" />
+                                    <local:ListBox ItemContainerStyle="{StaticResource {x:Static local:DockView.WindowsListBoxItemStyleKey}}" ItemsSource="{Binding Windows}" Sort="{local:SortDescriptor Title}" Style="{StaticResource {x:Static local:DockView.ListBoxStyleKey}}">
+                                        <local:ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <local:Label x:Name="_header" Icon="{base:ResourceBinding {x:Static visual:Image.Alias}, Application}" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Converter={convert:Is {x:Type local:FloatingWindow}}}" Value="True">
+                                                        <Setter Property="Icon" TargetName="_header" Value="{base:ResourceBinding {x:Static visual:Image.Alias}, ChildWindow}" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </local:ListBox.ItemTemplate>
+                                    </local:ListBox>
+                                </DockPanel>
+                                <DockPanel Grid.Column="2" Grid.Row="1">
+                                    <TextBlock DockPanel.Dock="Top" FontWeight="Bold" Text="Document Trays" />
+                                    <local:ListBox x:Name="Trays" ItemContainerStyle="{StaticResource {x:Static local:DockView.TraysListBoxItemStyleKey}}" ItemsSource="{Binding Trays}" Sort="{local:SortDescriptor Header}" Style="{StaticResource {x:Static local:DockView.ListBoxStyleKey}}">
+                                        <local:ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <local:Label Icon="{base:ResourceBinding {x:Static visual:Image.Alias}, Tab}" Text="{Binding Header}" TextTrimming="CharacterEllipsis" />
+                                            </DataTemplate>
+                                        </local:ListBox.ItemTemplate>
+                                    </local:ListBox>
+                                </DockPanel>
+                                <local:DockViewTextBlock Grid.ColumnSpan="3" Grid.Row="2" Text="{Binding Path}" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
+                            <Setter Property="Margin" TargetName="_label" Value="15,0,6,0" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

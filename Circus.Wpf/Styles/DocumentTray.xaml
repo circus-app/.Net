@@ -1,0 +1,61 @@
+﻿<!--
+    Copyright (c) 2019-2020, Circus.
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    
+    You may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Circus.Wpf" xmlns:convert="clr-namespace:Circus.Wpf.Converters" xmlns:local="clr-namespace:Circus.Wpf.Controls" xmlns:theme="clr-namespace:Circus.Wpf.Themes" xmlns:visual="clr-namespace:Circus.Wpf.Images">
+    <local:ContextMenu x:Key="{x:Static local:DocumentTray.ContextMenuKey}">
+        <local:MenuItem Command="{base:CommandBinding local:DocumentTray, CloseAll}" Icon="{base:ResourceBinding {x:Static visual:Image.Alias}, CloseDocumentGroup}" Header="Close All Tabs" />
+        <local:MenuItem Command="{base:CommandBinding local:DocumentTray, CloseNotToggled}" Header="Close All But Pinned" />
+        <Separator />
+        <local:MenuItem Command="{base:CommandBinding local:DocumentTray, FloatAll}" Header="Float All" />
+    </local:ContextMenu>
+    <Style x:Key="{x:Type local:DocumentTray}" TargetType="{x:Type local:DocumentTray}">
+        <Setter Property="AllowDrop" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0,0,0,2" />
+        <Setter Property="ContextMenu" Value="{StaticResource {x:Static local:DocumentTray.ContextMenuKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DocumentTray}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Border x:Name="_border" BorderBrush="{x:Static theme:Brushes.DocumentTrayBorder}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <DockPanel>
+                                <local:DocumentTrayDropDownButton DockPanel.Dock="Right" IsChecked="{Binding ContextMenu.IsOpen, RelativeSource={RelativeSource Self}}" IsOverflow="{Binding HasOverflowItems, ElementName=Panel}" Margin="0,0,0,4" VerticalAlignment="Bottom" Visibility="{TemplateBinding HasItems, Converter={convert:BooleanToVisibility}}">
+                                    <local:DocumentTrayDropDownButton.ContextMenu>
+                                        <local:SelectorView Visibility="{TemplateBinding HasItems, Converter={convert:BooleanToVisibility}}" />
+                                    </local:DocumentTrayDropDownButton.ContextMenu>
+                                </local:DocumentTrayDropDownButton>
+                                <local:DocumentTrayPanel x:Name="Panel" Background="Transparent" IsItemsHost="True" />
+                            </DockPanel>
+                        </Border>
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{x:Static theme:Brushes.ControlBorder}" BorderThickness="1" Grid.Row="1">
+                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="BorderBrush" TargetName="_border" Value="{x:Static theme:Brushes.DocumentTrayBorderFocused}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

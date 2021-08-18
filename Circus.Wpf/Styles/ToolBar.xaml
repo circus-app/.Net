@@ -1,0 +1,138 @@
+﻿<!--
+    Copyright (c) 2019-2020, Circus.
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    
+    You may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:convert="clr-namespace:Circus.Wpf.Converters" xmlns:local="clr-namespace:Circus.Wpf.Controls" xmlns:theme="clr-namespace:Circus.Wpf.Themes">
+    <Style x:Key="{x:Static local:ToolBar.ButtonStyleKey}" TargetType="{x:Type ButtonBase}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForeground}" />
+        <Setter Property="Height" Value="22" />
+        <Setter Property="MinWidth" Value="20" />
+        <Setter Property="ToggleButton.IsChecked" Value="{Binding Mode=OneWay, Path=IsChecked}" />
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel Orientation="Horizontal">
+                            <ContentPresenter HorizontalAlignment="Center" RecognizesAccessKey="True" VerticalAlignment="Center" Width="20" />
+                            <TextBlock x:Name="Text" Foreground="{TemplateBinding Foreground}" Margin="2,0,7,0" Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForegroundDisabled}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{x:Static theme:Brushes.ControlBackgroundMouseOver}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{x:Static theme:Brushes.ControlBackgroundPressed}" />
+                            <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForegroundPressed}" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                            <Setter Property="Visibility" TargetName="Text" Value="Collapsed" />
+                        </DataTrigger>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter Property="BorderBrush" Value="{x:Static theme:Brushes.ControlBorderChecked}" />
+                            <Setter Property="BorderThickness" Value="1" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsPressed" Value="True" />
+                                <Condition Property="ToggleButton.IsChecked" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="{x:Static theme:Brushes.ControlBackgroundMouseOver}" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="{x:Static local:ToolBar.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Margin" Value="3,2,3,2" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Fill="{x:Static theme:Brushes.Separator}" Width="1" />
+                        <Rectangle Fill="{x:Static theme:Brushes.SeparatorLight}" Width="1" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="{x:Static local:ToolBar.ComboBoxStyleKey}" TargetType="{x:Type ComboBox}">
+        <Setter Property="Margin" Value="3,0,3,0" />
+    </Style>
+    <Style x:Key="{x:Type local:ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}" TargetType="{x:Type local:ToolBar}">
+        <Setter Property="Margin" Value="0,0,3,0" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ToolBar}">
+                    <DockPanel>
+                        <local:ToolBarOverflowButton x:Name="Overflow" DockPanel.Dock="Right" Header="{TemplateBinding Header}" IsChecked="{Binding IsOverflowOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <local:ToolBarOverflowPopup AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsOverflowOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" PlacementTarget="{Binding Mode=OneTime, ElementName=Overflow}" PopupAnimation="None" StaysOpen="False">
+                            <Border Background="{x:Static theme:Brushes.ControlBackground}" BorderBrush="{x:Static theme:Brushes.ControlBorder}" BorderThickness="1" Margin="0,0,5,5">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="3" ShadowDepth="3" Opacity="0.4" />
+                                </Border.Effect>
+                                <StackPanel Orientation="Vertical">
+                                    <ToolBarOverflowPanel x:Name="PART_ToolBarOverflowPanel" Focusable="True" FocusVisualStyle="{x:Null}" HorizontalAlignment="Left" KeyboardNavigation.TabNavigation="Cycle" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="3" Visibility="{TemplateBinding HasOverflowItems, Converter={convert:BooleanToVisibility}}" WrapWidth="200" />
+                                    <Separator Background="{x:Static theme:Brushes.Separator}" Margin="2,1,2,0" Visibility="{Binding SeparatorVisibility, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <local:DescriptorView x:Name="Descriptor" ItemsSource="{Binding Descriptors, RelativeSource={RelativeSource TemplatedParent}}" Visibility="{Binding HasItems, RelativeSource={RelativeSource Self}, Converter={convert:BooleanToVisibility}}" />
+                                </StackPanel>
+                            </Border>
+                        </local:ToolBarOverflowPopup>
+                        <local:ToolBarThumb x:Name="Thumb" Width="9" />
+                        <ToolBarPanel x:Name="PART_ToolBarPanel" IsItemsHost="True" Margin="0,3,3,3" />
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsOverflowOpen" Value="True">
+                            <Setter Property="IsEnabled" TargetName="Thumb" Value="False" />
+                        </Trigger>
+                        <Trigger Property="ToolBarTray.IsLocked" Value="True">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Margin" TargetName="PART_ToolBarPanel" Value="0" />
+                            <Setter Property="Visibility" TargetName="Overflow" Value="Collapsed" />
+                            <Setter Property="Visibility" TargetName="Thumb" Value="Collapsed" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="HasItems" SourceName="Descriptor" Value="False" />
+                                <Condition Property="HasOverflowItems" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="IsEnabled" TargetName="Overflow" Value="False" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ToolBarTray.IsLocked" Value="True" />
+                                <Condition Property="HasOverflowItems" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" TargetName="Overflow" Value="Visible" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

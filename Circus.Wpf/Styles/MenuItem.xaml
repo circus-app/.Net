@@ -1,0 +1,149 @@
+﻿<!--
+    Copyright (c) 2019-2020, Circus.
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    
+    You may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Circus.Wpf" xmlns:convert="clr-namespace:Circus.Wpf.Converters" xmlns:local="clr-namespace:Circus.Wpf.Controls" xmlns:theme="clr-namespace:Circus.Wpf.Themes">
+    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Margin" Value="0,4,0,4" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <Border BorderBrush="{x:Static theme:Brushes.Separator}" BorderThickness="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="{x:Type local:MenuItem}">
+        <Grid>
+            <Border x:Name="Border" Background="Transparent" BorderThickness="1,1,1,0">
+                <ContentPresenter ContentSource="Header" Margin="9,1,9,1" RecognizesAccessKey="True" />
+            </Border>
+            <Popup AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsSubmenuOpen}" Placement="Bottom" PopupAnimation="None" VerticalOffset="-1">
+                <Grid>
+                    <Border Background="{x:Static theme:Brushes.ControlBackground}" BorderBrush="{x:Static theme:Brushes.ControlBorder}" BorderThickness="1" Grid.IsSharedSizeScope="True" Margin="0,0,5,5" Padding="2">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="3" ShadowDepth="3" Opacity="0.4" />
+                        </Border.Effect>
+                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                    </Border>
+                    <Border Background="{x:Static theme:Brushes.ControlBackground}" HorizontalAlignment="Left" Height="1" Margin="1,0,0,0" VerticalAlignment="Top" Width="{Binding Converter={convert:AddToValue {base:Double -2.0}}, ElementName=Border, Path=ActualWidth}" />
+                </Grid>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForegroundDisabled}" />
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" TargetName="Border" Value="{x:Static theme:Brushes.ControlBackgroundMouseOver}" />
+            </Trigger>
+            <Trigger Property="MenuItem.IsSubmenuOpen" Value="True">
+                <Setter Property="Background" TargetName="Border" Value="{x:Static theme:Brushes.ControlBackground}" />
+                <Setter Property="Border.BorderBrush" TargetName="Border" Value="{x:Static theme:Brushes.ControlBorder}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type local:MenuItem}">
+        <Border x:Name="Border" Padding="0,3,0,3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="32" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition SharedSizeGroup="InputGestureText" Width="Auto" />
+                    <ColumnDefinition Width="16" />
+                </Grid.ColumnDefinitions>
+                <Rectangle Grid.ColumnSpan="4" Fill="Transparent" />
+                <ContentPresenter x:Name="Icon" ContentSource="Icon" Height="16" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Center" Width="16" />
+                <Border x:Name="Check" Background="{x:Static theme:Brushes.MenuItemGlyphBackground}" BorderThickness="0" Height="18" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="Collapsed" Width="18">
+                    <Path x:Name="Checkmark" Data="F1 M 5,11 L 3,7 L 5,7 L 6,9 L 9,3 L 11,3 L 7,11 L 5,11 Z" Fill="{x:Static theme:Brushes.MenuItemGlyph}" Height="16" Margin="1,1,0,0" Width="16" />
+                </Border>
+                <ContentPresenter x:Name="Content" ContentSource="Header" Grid.Column="1" Margin="0,0,36,0" RecognizesAccessKey="True" />
+                <TextBlock Grid.Column="2" Text="{TemplateBinding InputGestureText}" />
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForegroundDisabled}" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Icon" Value="{x:Null}" />
+                    <Condition Property="IsChecked" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Visibility" TargetName="Check" Value="Visible" />
+                <Setter Property="Visibility" TargetName="Icon" Value="Collapsed" />
+            </MultiTrigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" TargetName="Border" Value="{x:Static theme:Brushes.ControlBackgroundMouseOver}" />
+                <Setter Property="Background" TargetName="Check" Value="Transparent" />
+                <Setter Property="Fill" TargetName="Checkmark" Value="{x:Static theme:Brushes.ControlForeground}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type local:MenuItem}">
+        <Grid>
+            <Border x:Name="Border" Padding="0,3,0,3">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition SharedSizeGroup="InputGestureText" Width="Auto" />
+                        <ColumnDefinition Width="16" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.ColumnSpan="4" Fill="Transparent" />
+                    <ContentPresenter ContentSource="Icon" Height="16" HorizontalAlignment="Left" Margin="4,0,0,0" VerticalAlignment="Center" Width="16" />
+                    <ContentPresenter ContentSource="Header" Grid.Column="1" Margin="0,0,36,0" RecognizesAccessKey="True" />
+                    <Path x:Name="Arrow" Data="M 0,0 L 4,3.5 L 0,7 Z" Grid.Column="4" Fill="{x:Static theme:Brushes.MenuItemGlyph}" VerticalAlignment="Center" Margin="4,0,0,0" />
+                </Grid>
+            </Border>
+            <Popup AllowsTransparency="True" Focusable="False" IsOpen="{TemplateBinding IsSubmenuOpen}" Placement="Right" PopupAnimation="None">
+                <Grid>
+                    <Border Background="{x:Static theme:Brushes.ControlBackground}" BorderBrush="{x:Static theme:Brushes.ControlBorder}" BorderThickness="1" Grid.IsSharedSizeScope="True" Margin="0,0,5,5" Padding="2">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="3" ShadowDepth="3" Opacity="0.4" />
+                        </Border.Effect>
+                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                    </Border>
+                </Grid>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForegroundDisabled}" />
+            </Trigger>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" TargetName="Border" Value="{x:Static theme:Brushes.ControlBackgroundMouseOver}" />
+                <Setter Property="Fill" TargetName="Arrow" Value="{x:Static theme:Brushes.ArrowMouseOver}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <Style x:Key="{x:Type local:MenuItem}" TargetType="{x:Type local:MenuItem}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Foreground" Value="{x:Static theme:Brushes.ControlForeground}" />
+        <Style.Triggers>
+            <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuHeaderTemplateKey}}" />
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuItem">
+                <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

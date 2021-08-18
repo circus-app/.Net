@@ -1,0 +1,62 @@
+﻿<!--
+    Copyright (c) 2019-2020, Circus.
+    
+    Licensed under the Apache License, Version 2.0 (the "License");
+    
+    You may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ComboBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ComboBoxItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ContextMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/DescriptorView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/DescriptorViewItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/DockView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/Document.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/DocumentTray.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/DocumentTrayDropDownButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/DropDownMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/DropDownMenuItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/EditableLabel.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/FloatingWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/HeaderedControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/HeaderedControlThumb.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ItemExpander.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/Label.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ListBoxItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/MenuItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/MenuItemCloseAll.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/Progress.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ScrollViewer.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/Search.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/SearchTextBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/SelectorView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/SelectorViewItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/SideMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/SideMenuItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/SideMenuPanel.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/Tab.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/TabItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ToolBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ToolBarOverflowButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ToolBarThumb.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/ToolBarTray.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/TreeViewBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/TreeViewItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/WindowBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/WindowButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Circus.Wpf;component/Styles/WindowMenu.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
